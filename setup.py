@@ -3,8 +3,8 @@ from setuptools import setup
 setup(
     name='SentryLogs',
     version='0.0.7',
-    author='Mauro RED',
-    author_email='opensource@ff0000.com',
+    author='Mauro De Giorgi',
+    author_email='mauro.degiorgi@gmail.com',
     scripts=['bin/sentrylogs',],
     packages=['sentrylogs', 'sentrylogs.conf', 'sentrylogs.parsers'],
     url='http://pypi.python.org/pypi/SentryLogs/',
