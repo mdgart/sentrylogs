@@ -1,0 +1,7 @@
+v0.0.1, 12/05/2012 -- Initial Alpha release, not ready for production
+v0.0.2, 12/05/2012 -- No conf and parsers included
+v0.0.3, 12/05/2012 -- No conf and parsers included, fixed
+v0.0.4, 12/05/2012 -- Documentation
+v0.0.5, 12/05/2012 -- Django settings eliminated
+v0.0.6, 12/05/2012 -- Nginx default error log path fixed
+v0.0.7, 12/10/2012 -- Documentation bug fix
