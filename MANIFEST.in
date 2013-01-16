@@ -1,4 +1,5 @@
 include *.txt
+include *.md
 recursive-include docs *.txt
 recursive-include sentrylogs/conf *.py
 prune sentrylogs/env
