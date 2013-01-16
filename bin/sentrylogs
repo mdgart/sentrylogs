@@ -1,0 +1,31 @@
+#!/usr/bin/env python
+import argparse
+import os
+
+def main():
+    p = argparse.ArgumentParser(description='Send logs to Django Sentry.')
+
+    p.add_argument('--follow', '-f', default="all", help='Which logs to follow, default ALL')
+    p.add_argument('--sentrydsn', '-s', default="", help='The Sentry DSN string')
+    p.add_argument('--daemonize', '-d',  action='store_const', const=True, default=False, help='Run this script in background')
+    p.add_argument('--nginxerrorpath', '-n', default=False, help='Nginx error log path')
+
+    options = p.parse_args()
+
+    print 'Start sending %s logs to Sentry' % options.follow
+    if options.sentrydsn:
+        print "Using the DSN %s" % options.sentrydsn
+        os.environ['SENTRY_DSN'] = options.sentrydsn
+    if options.nginxerrorpath:
+        print "Using the Nginx error log path %s" % options.nginxerrorpath
+        os.environ['NGINX_ERROR_PATH'] = options.nginxerrorpath
+    if options.daemonize:
+        print "Process running in background"
+        from sentrylogs.conf import settings
+        from sentrylogs.daemonize import createDaemon
+        createDaemon()
+
+    from sentrylogs import nginx
+
+if __name__ == '__main__':
+    main()
