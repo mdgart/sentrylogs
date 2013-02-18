@@ -20,8 +20,11 @@ def nginx_error_parser(line):
 
     for l in csv_list:
         kv = l.split(":",1)
-        value = strip(kv[1])
-        if not value:
+        if len(kv)>0:
+            value = strip(kv[1])
+            if not value:
+                value = "-"
+        else
             value = "-"
         otherinfo[strip(kv[0])] = value
 
