@@ -6,3 +6,4 @@ v0.0.5, 12/05/2012 -- Django settings eliminated
 v0.0.6, 12/05/2012 -- Nginx default error log path fixed
 v0.0.7, 12/10/2012 -- Documentation bug fix
 v0.0.8, 01/16/2013 -- README.md addded to manifest
+v0.0.9, 02/18/2013 -- Patch for invalid Nginx errors
