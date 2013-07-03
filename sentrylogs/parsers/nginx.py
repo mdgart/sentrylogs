@@ -24,7 +24,7 @@ def nginx_error_parser(line):
             value = strip(kv[1])
             if not value:
                 value = "-"
-        else
+        else:
             value = "-"
         otherinfo[strip(kv[0])] = value
 
