@@ -6,6 +6,8 @@ python:
   - "3.3"
   - "3.4"
   - "3.5"
+install:
+  - pip install virtualenv
 script:
   - python --version
   - python setup.py -q install
