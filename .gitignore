@@ -49,7 +49,7 @@ build/config/buildinfo.properties
 env
 
 # Packages
-*.egg
+*.egg[s]
 *.egg-info
 dist
 build

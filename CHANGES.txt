@@ -7,3 +7,5 @@ v0.0.6, 12/05/2012 -- Nginx default error log path fixed
 v0.0.7, 12/10/2012 -- Documentation bug fix
 v0.0.8, 01/16/2013 -- README.md addded to manifest
 v0.0.9, 02/18/2013 -- Patch for invalid Nginx errors
+v1.0.0, ??/??/???? -- (non-versioned release)
+v1.1.0, 06/07/2016 -- Add static code analysis (flake8, pylint)
