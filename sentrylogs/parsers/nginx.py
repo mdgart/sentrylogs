@@ -25,8 +25,7 @@ def nginx_error_parser(line):
         key_value_pair = item.split(":", 1)
         key = key_value_pair[0].strip()
 
-        # FIXME: must be > 1 or key_value_pair[1] may fail; NOTE: > 0 is always true here
-        if len(key_value_pair) > 0:
+        if len(key_value_pair) > 1:
             value = key_value_pair[1].strip()
             if not value:
                 value = "-"
