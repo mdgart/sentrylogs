@@ -1,5 +1,6 @@
 from conf import client
 
+
 def send_message(message, extended_message, params, site, logger):
     client.capture(
         'Message',
@@ -7,9 +8,9 @@ def send_message(message, extended_message, params, site, logger):
         data={
             'sentry.interfaces.Message': {
                 'message': extended_message,
-                'params': tuple(params)
+                'params': tuple(params),
             },
             'site': site,
             'logger': logger,
-            },
+        },
     )
