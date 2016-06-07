@@ -1,7 +1,11 @@
-from conf import client
+"""
+Helper functions for Sentry Logs
+"""
+from .conf import client
 
 
 def send_message(message, extended_message, params, site, logger):
+    """Send a message to the Sentry server"""
     client.capture(
         'Message',
         message=message,

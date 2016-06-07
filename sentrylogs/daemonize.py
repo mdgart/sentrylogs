@@ -14,6 +14,7 @@ References:
    2) Unix Programming Frequently Asked Questions:
          http://www.erlenstar.demon.co.uk/unix/faq_toc.html
 """
+from os import _exit  # circumvent PyLint's protected-access warning
 import os
 import sys
 
@@ -34,7 +35,7 @@ WORKDIR = "/"
 MAXFD = 1024
 
 # The standard I/O file descriptors are redirected to /dev/null by default.
-if (hasattr(os, "devnull")):
+if hasattr(os, "devnull"):
     REDIRECT_TO = os.devnull
 else:
     REDIRECT_TO = "/dev/null"
@@ -52,10 +53,10 @@ def create_daemon():
         # and inherits the parent's process group ID.  This step is required
         # to insure that the next call to os.setsid is successful.
         pid = os.fork()
-    except OSError as e:
-        raise Exception("%s [%d]" % (e.strerror, e.errno))
+    except OSError as err:
+        raise Exception("%s [%d]" % (err.strerror, err.errno))
 
-    if (pid == 0):  # The first child.
+    if pid == 0:  # The first child.
         # To become the session leader of this new session and the process group
         # leader of the new process group, we call os.setsid().  The process is
         # also guaranteed not to have a controlling terminal.
@@ -100,10 +101,10 @@ def create_daemon():
             # longer a session leader, preventing the daemon from ever acquiring
             # a controlling terminal.
             pid = os.fork()  # Fork a second child.
-        except OSError as e:
-            raise Exception("%s [%d]" % (e.strerror, e.errno))
+        except OSError as err:
+            raise Exception("%s [%d]" % (err.strerror, err.errno))
 
-        if (pid == 0):  # The second child.
+        if pid == 0:  # The second child.
             # Since the current working directory may be a mounted filesystem, we
             # avoid the issue of not being able to unmount the filesystem at
             # shutdown time by changing it to the root directory.
@@ -113,7 +114,7 @@ def create_daemon():
             os.umask(UMASK)
         else:
             # exit() or _exit()?  See below.
-            os._exit(0)  # Exit parent (the first child) of the second child.
+            _exit(0)  # Exit parent (the first child) of the second child.
     else:
         # exit() or _exit()?
         # _exit is like exit(), but it doesn't call any functions registered
@@ -122,7 +123,7 @@ def create_daemon():
         # streams to be flushed twice and any temporary files may be unexpectedly
         # removed.  It's therefore recommended that child branches of a fork()
         # and the parent branch(es) of a daemon use _exit().
-        os._exit(0)  # Exit parent of the first child.
+        _exit(0)  # Exit parent of the first child.
 
     # Close all open file descriptors.  This prevents the child from keeping
     # open any file descriptors inherited from the parent.  There is a variety
@@ -139,7 +140,7 @@ def create_daemon():
     #
     # OR
     #
-    # if (os.sysconf_names.has_key("SC_OPEN_MAX")):
+    # if os.sysconf_names.has_key("SC_OPEN_MAX"):
     #    maxfd = os.sysconf("SC_OPEN_MAX")
     # else:
     #    maxfd = MAXFD
@@ -152,14 +153,14 @@ def create_daemon():
     #
     import resource  # Resource usage information.
     maxfd = resource.getrlimit(resource.RLIMIT_NOFILE)[1]
-    if (maxfd == resource.RLIM_INFINITY):
+    if maxfd == resource.RLIM_INFINITY:
         maxfd = MAXFD
 
     # Iterate through and close all file descriptors.
-    for fd in range(0, maxfd):
+    for file_desc in range(0, maxfd):
         try:
-            os.close(fd)
-        except OSError:  # ERROR, fd wasn't open to begin with (ignored)
+            os.close(file_desc)
+        except OSError:  # file descriptor wasn't open to begin with (ignored)
             pass
 
     # Redirect the standard I/O file descriptors to the specified file.  Since
@@ -175,11 +176,11 @@ def create_daemon():
     os.dup2(0, 1)  # standard output (1)
     os.dup2(0, 2)  # standard error (2)
 
-    return (0)
+    return 0
 
 
 if __name__ == "__main__":
-    retCode = create_daemon()
+    RET_CODE = create_daemon()
 
     # The code, as is, will create a new file in the root directory, when
     # executed with superuser privileges.  The file will contain the following
@@ -188,19 +189,19 @@ if __name__ == "__main__":
     # and the effective group ID.  Notice the relationship between the daemon's
     # process ID, process group ID, and its parent's process ID.
 
-    procParams = """
-   return code = %s
-   process ID = %s
-   parent process ID = %s
-   process group ID = %s
-   session ID = %s
-   user ID = %s
-   effective user ID = %s
-   real group ID = %s
-   effective group ID = %s
-   """ % (retCode, os.getpid(), os.getppid(), os.getpgrp(), os.getsid(0),
-          os.getuid(), os.geteuid(), os.getgid(), os.getegid())
+    PROC_PARAMS = """
+    return code = %s
+    process ID = %s
+    parent process ID = %s
+    process group ID = %s
+    session ID = %s
+    user ID = %s
+    effective user ID = %s
+    real group ID = %s
+    effective group ID = %s
+    """ % (RET_CODE, os.getpid(), os.getppid(), os.getpgrp(), os.getsid(0),
+           os.getuid(), os.geteuid(), os.getgid(), os.getegid())
 
-    open("createDaemon.log", "w").write(procParams + "\n")
+    open("createDaemon.log", "w").write(PROC_PARAMS + "\n")
 
-    sys.exit(retCode)
+    sys.exit(RET_CODE)
