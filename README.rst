@@ -4,7 +4,7 @@ Sentry Logs |latest-version|
 
 |build-status| |health| |python-support| |downloads| |license|
 
-Sentry Logs allows you to send Logs to Sentry, only Nginx error log is
+Sentry Logs allows you to send logs to Sentry.  Only Nginx error log is
 currently supported, but extending the library to support more log files
 is planned.
 
@@ -31,7 +31,7 @@ is planned.
 How it works
 ============
 
-To install sentrylogs you can use pip or easy_install::
+To install *sentrylogs* you can use pip or easy_install::
 
     pip install sentrylogs
 
