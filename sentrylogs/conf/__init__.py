@@ -1,5 +1,8 @@
+"""
+Configuration of Sentry Logs
+"""
 from raven import Client
-import settings
 
-# configure Raven client
-client = Client(dsn=settings.SENTRY_DSN)
+from .settings import SENTRY_DSN
+
+client = Client(dsn=SENTRY_DSN)  # pylint: disable=invalid-name

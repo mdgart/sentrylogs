@@ -2,9 +2,9 @@
 Sentry Logs
 ===========
 
-Sentry Logs allows you to send Logs to Sentry, only Nginx error log is currently supported,
-but I'm planning to extend the library to support more logs file.
-
+Sentry Logs allows you to send Logs to Sentry, only Nginx error log is
+currently supported, but extending the library to support more log files
+is planned.
 
 How it works
 ============
@@ -17,10 +17,9 @@ or::
 
     easy_install sentrylogs
 
-This will install the module and you will have a new command line available::
+This will install the module and will provide a new console command::
 
-    sentrylogs -h
-
+    $ sentrylogs -h
 
     usage: sentrylogs [-h] [--follow FOLLOW] [--sentrydsn SENTRYDSN] [--daemonize]
                       [--nginxerrorpath NGINXERRORPATH]
@@ -37,24 +36,19 @@ This will install the module and you will have a new command line available::
       --nginxerrorpath NGINXERRORPATH, -n NGINXERRORPATH
                             Nginx error log path
 
+You must provide a Sentry DSN to make it work; you have 2 possibilities:
 
-you must provide a Sentry DSN to make it works; at this moment you have 2 possibilities:
+Provide an environment variable::
 
-set up an environment variable:
+    $ export SENTRY_DSN="protocol://public:secret@example.com/#"
+    $ sentrylogs
 
-$ export SENTRY_DSN="protocol://public:secret@example.com/#"
-$ sentrylogs
+or use the ``--sentrydsn`` command line argument::
 
-or use the --sentrydsn argument:
+    $ sentrylogs --sentrydsn "protocol://public:secret@example.com/#"
 
-$ sentrylogs --sentrydsn "protocol://public:secret@example.com/#"
+By default *sentrylogs* will assume the nginx log at ``/var/log/nginx/error.log``,
+but you can change this using the ``--nginxerrorpath`` argument.
 
-By defauld it will seach for nginx log at /var/log/nginx/error.log, but you can change it using --nginxerrorpath
-
-If you use --daemonize the command will daemonize itself and will run in background.
-
-
-
-
-
-
+If you use ``--daemonize`` the command will daemonize itself and run in
+background.

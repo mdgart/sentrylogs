@@ -22,8 +22,8 @@ def main():
     if options.daemonize:
         print "Process running in background"
         from sentrylogs.conf import settings
-        from sentrylogs.daemonize import createDaemon
-        createDaemon()
+        from sentrylogs.daemonize import create_daemon
+        create_daemon()
 
     from sentrylogs import nginx
 
