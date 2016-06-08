@@ -31,15 +31,21 @@ is planned.
 How it works
 ============
 
-To install *sentrylogs* you can use pip or easy_install::
+To install *sentrylogs* you can use pip or easy_install:
 
-    pip install sentrylogs
+.. code-block:: bash
 
-or::
+    $ pip install sentrylogs
 
-    easy_install sentrylogs
+or:
 
-This will install the module and will provide a new console command::
+.. code-block:: bash
+
+    $ easy_install sentrylogs
+
+This will install the module and will provide a new console command:
+
+.. code-block:: bash
 
     $ sentrylogs -h
 
@@ -60,12 +66,16 @@ This will install the module and will provide a new console command::
 
 You must provide a Sentry DSN to make it work; you have 2 possibilities:
 
-Provide an environment variable::
+Provide an environment variable:
+
+.. code-block:: bash
 
     $ export SENTRY_DSN="protocol://public:secret@example.com/#"
     $ sentrylogs
 
-or use the ``--sentrydsn`` command line argument::
+or use the ``--sentrydsn`` command line argument:
+
+.. code-block:: bash
 
     $ sentrylogs --sentrydsn "protocol://public:secret@example.com/#"
 
@@ -74,3 +84,13 @@ but you can change this using the ``--nginxerrorpath`` argument.
 
 If you use ``--daemonize`` the command will daemonize itself and run in
 background.
+
+How to contribute
+=================
+
+.. code-block:: bash
+
+    $ python setup.py test    # run all tests with active Python version
+    $ python setup.py clean   # remove all build files and byte code
+
+Please write tests!  At the moment we're running static code analysis only.
