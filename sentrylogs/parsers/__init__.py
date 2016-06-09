@@ -5,6 +5,12 @@ import tailer  # same functionality as UNIX tail in python
 
 from ..helpers import send_message
 
+try:
+    (FileNotFoundError, PermissionError)
+except NameError:  # Python 2.7
+    FileNotFoundError = IOError  # pylint: disable=redefined-builtin
+    PermissionError = IOError  # pylint: disable=redefined-builtin
+
 
 class Parser(object):
     """Abstract base class for any parser"""
@@ -22,7 +28,12 @@ class Parser(object):
         Read (tail and follow) the log file, parse entries and send messages
         to Sentry using Raven.
         """
-        for line in tailer.follow(open(self.filepath)):
+        try:
+            logfile = open(self.filepath)
+        except (FileNotFoundError, PermissionError) as err:
+            exit("Error: Can't read logfile %s (%s)" % (self.filepath, err))
+
+        for line in tailer.follow(logfile):
             self.message = None
             self.extended_message = None
             self.params = None
