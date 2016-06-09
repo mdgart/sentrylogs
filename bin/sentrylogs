@@ -6,6 +6,9 @@ import argparse
 import os
 
 
+# Ignore warnings caused by ``sentrylogs.<...>`` imports
+# pylint: disable=no-name-in-module
+
 def get_command_line_args():
     """CLI command line arguments handling"""
     parser = argparse.ArgumentParser(description='Send logs to Django Sentry.')
@@ -33,13 +36,13 @@ def process_arguments(args):
 
     if args.daemonize:
         print('Running process in background')
-        from sentrylogs.daemonize import create_daemon  # pylint: disable=no-name-in-module
+        from sentrylogs.daemonize import create_daemon
         create_daemon()
 
 
 def launch_log_parsers():
     """Run all log file parsers that send entries to Sentry"""
-    from sentrylogs.parsers.nginx import Nginx  # pylint: disable=no-name-in-module
+    from sentrylogs.parsers.nginx import Nginx
 
     for parser in [Nginx]:
         parser().follow_tail()
