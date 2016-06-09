@@ -6,8 +6,8 @@ import argparse
 import os
 
 
-def main():
-    """Main entry point of console script"""
+def get_command_line_args():
+    """CLI command line arguments handling"""
     parser = argparse.ArgumentParser(description='Send logs to Django Sentry.')
 
     parser.add_argument('--follow', '-f', default="all", help='Which logs to follow, default ALL')
@@ -16,22 +16,41 @@ def main():
                         help='Run this script in background')
     parser.add_argument('--nginxerrorpath', '-n', default=False, help='Nginx error log path')
 
-    args = parser.parse_args()
+    return parser.parse_args()
 
-    print('Start sending %s logs to Sentry' % args.follow)
+
+def process_arguments(args):
+    """Deal with arguments passed on the command line"""
     if args.sentrydsn:
         print('Using the DSN %s' % args.sentrydsn)
         os.environ['SENTRY_DSN'] = args.sentrydsn
+
     if args.nginxerrorpath:
         print('Using the Nginx error log path %s' % args.nginxerrorpath)
         os.environ['NGINX_ERROR_PATH'] = args.nginxerrorpath
+
+    import sentrylogs.conf.settings  # noqa (unused import; asserts settings)
+
     if args.daemonize:
-        print('Process running in background')
+        print('Running process in background')
         from sentrylogs.daemonize import create_daemon  # pylint: disable=no-name-in-module
         create_daemon()
 
+
+def launch_log_parsers():
+    """Run all log file parsers that send entries to Sentry"""
     from sentrylogs.parsers.nginx import Nginx  # pylint: disable=no-name-in-module
-    Nginx().follow_tail()
+
+    for parser in [Nginx]:
+        parser().follow_tail()
+
+
+def main():
+    """Main entry point of console script"""
+    args = get_command_line_args()
+    process_arguments(args)
+    print('Start sending %s logs to Sentry' % args.follow)
+    launch_log_parsers()
 
 
 if __name__ == '__main__':
