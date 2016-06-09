@@ -1,31 +1,37 @@
 #!/usr/bin/env python
+"""Standalone script for Sentry Logs"""
+from __future__ import print_function
+
 import argparse
 import os
 
+
 def main():
-    p = argparse.ArgumentParser(description='Send logs to Django Sentry.')
+    """Main entry point of console script"""
+    parser = argparse.ArgumentParser(description='Send logs to Django Sentry.')
 
-    p.add_argument('--follow', '-f', default="all", help='Which logs to follow, default ALL')
-    p.add_argument('--sentrydsn', '-s', default="", help='The Sentry DSN string')
-    p.add_argument('--daemonize', '-d',  action='store_const', const=True, default=False, help='Run this script in background')
-    p.add_argument('--nginxerrorpath', '-n', default=False, help='Nginx error log path')
+    parser.add_argument('--follow', '-f', default="all", help='Which logs to follow, default ALL')
+    parser.add_argument('--sentrydsn', '-s', default="", help='The Sentry DSN string')
+    parser.add_argument('--daemonize', '-d', action='store_const', const=True, default=False,
+                        help='Run this script in background')
+    parser.add_argument('--nginxerrorpath', '-n', default=False, help='Nginx error log path')
 
-    options = p.parse_args()
+    args = parser.parse_args()
 
-    print 'Start sending %s logs to Sentry' % options.follow
-    if options.sentrydsn:
-        print "Using the DSN %s" % options.sentrydsn
-        os.environ['SENTRY_DSN'] = options.sentrydsn
-    if options.nginxerrorpath:
-        print "Using the Nginx error log path %s" % options.nginxerrorpath
-        os.environ['NGINX_ERROR_PATH'] = options.nginxerrorpath
-    if options.daemonize:
-        print "Process running in background"
-        from sentrylogs.conf import settings
-        from sentrylogs.daemonize import create_daemon
+    print('Start sending %s logs to Sentry' % args.follow)
+    if args.sentrydsn:
+        print('Using the DSN %s' % args.sentrydsn)
+        os.environ['SENTRY_DSN'] = args.sentrydsn
+    if args.nginxerrorpath:
+        print('Using the Nginx error log path %s' % args.nginxerrorpath)
+        os.environ['NGINX_ERROR_PATH'] = args.nginxerrorpath
+    if args.daemonize:
+        print('Process running in background')
+        from sentrylogs.daemonize import create_daemon  # pylint: disable=no-name-in-module
         create_daemon()
 
-    from sentrylogs import nginx
+    from sentrylogs import nginx  # noqa pylint: disable=unused-variable,no-name-in-module
+
 
 if __name__ == '__main__':
     main()
