@@ -30,7 +30,8 @@ def main():
         from sentrylogs.daemonize import create_daemon  # pylint: disable=no-name-in-module
         create_daemon()
 
-    from sentrylogs import nginx  # noqa pylint: disable=unused-variable,no-name-in-module
+    from sentrylogs.parsers.nginx import Nginx
+    Nginx().follow_tail()
 
 
 if __name__ == '__main__':
