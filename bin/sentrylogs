@@ -60,16 +60,20 @@ def parse_sentry_configuration(filename):
     if filetype == 'ini':  # Pyramid, Pylons
         config = ConfigParser()
         config.read(filename)
+        ini_key = 'dsn'
         ini_sections = ['sentry', 'filter:raven']
 
         for section in ini_sections:
             if section in config:
-                print('- Using value from [%s]:[dsn]' % section)
+                print('- Using value from [{section}]:[{key}]'
+                      .format(section=section, key=ini_key))
                 try:
-                    return config[section]['dsn']
+                    return config[section][ini_key]
                 except KeyError:
-                    exit('Value "dsn" not found in %s' % filename)
-        exit('No DSN found in %s. Tried sections [%s]' % (filename, '], ['.join(ini_sections)))
+                    print('- Warning: Key "{key}" not found in section [{section}]'
+                          .format(section=section, key=ini_key))
+        exit('No DSN found in {file}. Tried sections [{sec_list}]'
+             .format(file=filename, sec_list='], ['.join(ini_sections)))
     elif filetype == 'py':  # Django, Flask, Bottle, ...
         exit('Parsing configuration from pure Python (Django, Flask, Bottle, etc.)'
              ' not implemented yet.')
