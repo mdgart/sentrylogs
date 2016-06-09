@@ -90,7 +90,10 @@ How to contribute
 
 .. code-block:: bash
 
-    $ python setup.py test    # run all tests with active Python version
-    $ python setup.py clean   # remove all build files and byte code
+    $ python setup.py test        # run all tests with active Python version
+    $ python setup.py clean       # remove all build files and byte code
+    $ python setup.py clean test  # start a clean test run (to fix test issues)
 
-Please write tests!  At the moment we're running static code analysis only.
+Please write tests!  At the moment our test infrastructure is in place, but
+our tests are very basic (static code analysis over all files, and function
+tests for the command line script).
