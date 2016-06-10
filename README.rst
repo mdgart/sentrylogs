@@ -37,8 +37,6 @@ To install *sentrylogs* you can use pip or easy_install:
 
     $ pip install sentrylogs
 
-or:
-
 .. code-block:: bash
 
     $ easy_install sentrylogs
@@ -49,51 +47,73 @@ This will install the module and will provide a new console command:
 
     $ sentrylogs -h
 
-    usage: sentrylogs [-h] [--follow FOLLOW] [--sentrydsn SENTRYDSN] [--daemonize]
+    usage: sentrylogs [-h] [--sentryconfig SENTRYCONFIG] [--sentrydsn SENTRYDSN]
+                      [--daemonize] [--follow FOLLOW]
                       [--nginxerrorpath NGINXERRORPATH]
 
     Send logs to Django Sentry.
 
     optional arguments:
       -h, --help            show this help message and exit
-      --follow FOLLOW, -f FOLLOW
-                            Which logs to follow, default ALL (for now only ALL is available)
+      --sentryconfig SENTRYCONFIG, -c SENTRYCONFIG
+                            A configuration file (.ini, .yaml) of some Sentry
+                            integration to extract the Sentry DSN from
       --sentrydsn SENTRYDSN, -s SENTRYDSN
-                            The Sentry DSN string
+                            The Sentry DSN string (overrides -c)
       --daemonize, -d       Run this script in background
+      --follow FOLLOW, -f FOLLOW
+                            Which logs to follow, default ALL
       --nginxerrorpath NGINXERRORPATH, -n NGINXERRORPATH
                             Nginx error log path
 
-You must provide a Sentry DSN to make it work; you have 2 possibilities:
+Sentry DSN
+----------
 
-Provide an environment variable:
+We need to provide a Sentry DSN to send messages to the Sentry server.  There
+are 3 options to do this:
+
+#. Use the ``--sentryconfig`` command line argument to read the configuration
+   file of your `Sentry integration`_, or
+#. Use the ``--sentrydsn`` command line argument to specify the DSN directly, or
+#. Provide an environment variable.
 
 .. code-block:: bash
 
-    $ export SENTRY_DSN="protocol://public:secret@example.com/#"
-    $ sentrylogs
+    $ export SENTRY_DSN='protocol://public:secret@example.com/#'; sentrylogs
+    $ sentrylogs --sentryconfig /opt/myapp/config/pyramid.ini
+    $ sentrylogs --sentrydsn 'protocol://public:secret@example.com/#'
 
-or use the ``--sentrydsn`` command line argument:
+Log File Location
+-----------------
 
-.. code-block:: bash
+By default *sentrylogs* will assume the nginx log at ``/var/log/nginx/error.log``.
+You can change this using the ``--nginxerrorpath`` argument.
 
-    $ sentrylogs --sentrydsn "protocol://public:secret@example.com/#"
-
-By default *sentrylogs* will assume the nginx log at ``/var/log/nginx/error.log``,
-but you can change this using the ``--nginxerrorpath`` argument.
+Run as Daemon
+-------------
 
 If you use ``--daemonize`` the command will daemonize itself and run in
 background.
 
+
+.. _Sentry integration: https://docs.getsentry.com/on-premise/clients/python/#deep-dive
+
 How to contribute
 =================
 
+Please `open an issue`_ to discuss your plans for a `pull request`_.  After
+writing code make sure your changes pass our quality gate before you push.
+
 .. code-block:: bash
 
-    $ python setup.py test        # run all tests with active Python version
-    $ python setup.py clean       # remove all build files and byte code
-    $ python setup.py clean test  # start a clean test run (to fix test issues)
+    $ python setup.py test         # run all tests with active Python version
+    $ python setup.py clean        # remove all build files and byte code
+    $ python setup.py clean test   # start a clean test run (to fix test issues)
 
-Please write tests!  At the moment our test infrastructure is in place, but
-our tests are very basic (static code analysis over all files, and function
+Please write tests!  Our test infrastructure is in place, however our tests
+are still very basic (static code analysis over all files, and integration
 tests for the command line script).
+
+
+.. _open an issue: https://github.com/mdgart/sentrylogs/issues
+.. _pull request: https://github.com/mdgart/sentrylogs/pulls
