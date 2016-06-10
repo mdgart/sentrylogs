@@ -1,4 +1,3 @@
 include *.txt
 include *.rst
 recursive-include sentrylogs/conf *.py
-prune sentrylogs/env
