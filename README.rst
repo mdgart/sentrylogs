@@ -28,7 +28,7 @@ is planned.
    :alt: Software license
    :target: https://github.com/mdgart/sentrylogs/blob/master/LICENSE.txt
 
-How it works
+How It Works
 ============
 
 To install *sentrylogs* you can use pip or easy_install:
@@ -79,9 +79,9 @@ are 3 options to do this:
 
 .. code-block:: bash
 
-    $ export SENTRY_DSN='protocol://public:secret@example.com/#'; sentrylogs
     $ sentrylogs --sentryconfig /opt/myapp/config/pyramid.ini
     $ sentrylogs --sentrydsn 'protocol://public:secret@example.com/#'
+    $ export SENTRY_DSN='protocol://public:secret@example.com/#' && sentrylogs
 
 Log File Location
 -----------------
@@ -98,7 +98,7 @@ background.
 
 .. _Sentry integration: https://docs.getsentry.com/on-premise/clients/python/#deep-dive
 
-How to contribute
+How to Contribute
 =================
 
 Please `open an issue`_ to discuss your plans for a `pull request`_.  After
