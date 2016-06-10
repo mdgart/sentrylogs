@@ -12,7 +12,7 @@ is planned.
 .. |latest-version| image:: https://img.shields.io/pypi/v/sentrylogs.svg
    :alt: Latest version on PyPI
    :target: https://pypi.python.org/pypi/sentrylogs
-.. |build-status| image:: https://travis-ci.org/mdgart/sentrylogs.svg
+.. |build-status| image:: https://travis-ci.org/mdgart/sentrylogs.svg?branch=master
    :alt: Build status
    :target: https://travis-ci.org/mdgart/sentrylogs
 .. |health| image:: https://landscape.io/github/mdgart/sentrylogs/master/landscape.svg?style=flat
