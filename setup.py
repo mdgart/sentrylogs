@@ -1,15 +1,22 @@
+#!/usr/bin/env python
+"""Setup for Sentry Logs"""
+from __future__ import print_function
+
 from glob import glob
-from setuptools import setup
-from setuptools.command.test import test as TestCommand  # noqa N812
-from shlex import split
-from shutil import rmtree
 from os import remove
 from os.path import abspath, dirname, join
+from shlex import split
+from shutil import rmtree
+
+from setuptools import setup
+from setuptools.command.test import test as TestCommand  # noqa N812
 
 import sentrylogs as package
 
 
 class Tox(TestCommand):
+    """Integration of tox via the setuptools ``test`` command"""
+    # pylint: disable=attribute-defined-outside-init
     user_options = [('tox-args=', 'a', "Arguments to pass to tox")]
 
     def initialize_options(self):
@@ -22,7 +29,7 @@ class Tox(TestCommand):
         self.test_suite = True
 
     def run_tests(self):
-        from tox import cmdline
+        from tox import cmdline  # pylint: disable=import-error
         args = self.tox_args
         if args:
             args = split(self.tox_args)
@@ -31,6 +38,8 @@ class Tox(TestCommand):
 
 
 class Clean(TestCommand):
+    """A setuptools ``clean`` command. Removes build files and folders"""
+
     def run(self):
         delete_in_root = [
             'build',
@@ -53,6 +62,7 @@ class Clean(TestCommand):
 
 
 def rmtree_glob(file_glob):
+    """Platform independent rmtree. Removes a complete directory."""
     for fobj in glob(file_glob):
         try:
             rmtree(fobj)
@@ -66,8 +76,9 @@ def rmtree_glob(file_glob):
 
 
 def read_file(filename):
-    with open(join(abspath(dirname(__file__)), filename)) as f:
-        return f.read()
+    """Read the contents of a file located relative to setup.py"""
+    with open(join(abspath(dirname(__file__)), filename)) as thefile:
+        return thefile.read()
 
 
 setup(
