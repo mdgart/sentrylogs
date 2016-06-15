@@ -33,8 +33,7 @@ class Tox(TestCommand):
         args = self.tox_args
         if args:
             args = split(self.tox_args)
-        errno = cmdline(args=args)
-        exit(errno)
+        cmdline(args=args)
 
 
 class Clean(TestCommand):
@@ -49,8 +48,8 @@ class Clean(TestCommand):
             '.tox',
         ]
         delete_everywhere = [
-            '__pycache__',
             '*.pyc',
+            '__pycache__',
         ]
         for candidate in delete_in_root:
             rmtree_glob(candidate)
