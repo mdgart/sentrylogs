@@ -45,7 +45,7 @@ def process_arguments(args):
         print('Using the Nginx error log path %s' % args.nginxerrorpath)
         os.environ['NGINX_ERROR_PATH'] = args.nginxerrorpath
 
-    import sentrylogs.conf.settings  # noqa (unused import; asserts settings)
+    import sentrylogs.conf.settings  # noqa; pylint: disable=unused-variable
 
     if args.daemonize:
         print('Running process in background')
