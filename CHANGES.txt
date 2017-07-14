@@ -9,3 +9,4 @@ v0.0.8, 01/16/2013 -- README.md addded to manifest
 v0.0.9, 02/18/2013 -- Patch for invalid Nginx errors
 v0.1.0, 07/25/2014 -- Fix syntax error in nginx parser (07/03/2013; released 1y later w/ non-versioned version bump)
 v0.2.0, 06/10/2016 -- Add --sentryconfig option, add static code analysis (flake8, pylint) and integration tests
+v0.3.0, 07/14/2017 -- Use entry_point.console_scripts for script setup, use relative imports in script module
