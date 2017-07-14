@@ -53,7 +53,7 @@ class Clean(TestCommand):
         ]
         for candidate in delete_in_root:
             rmtree_glob(candidate)
-        for visible_dir in glob('[A-Za-z0-9]*'):
+        for visible_dir in glob('[A-Za-z0-9_]*'):
             for candidate in delete_everywhere:
                 rmtree_glob(join(visible_dir, candidate))
                 rmtree_glob(join(visible_dir, '*', candidate))
@@ -96,6 +96,7 @@ setup(
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
     ],
     description=package.__doc__.strip(),
     long_description=read_file('README.rst'),
