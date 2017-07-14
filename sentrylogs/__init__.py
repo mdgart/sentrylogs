@@ -1,5 +1,5 @@
 """
-Send logs to Django Sentry.
+Send logs from Nginx and other applications to Sentry.
 """
 __author__ = 'Mauro De Giorgi'
 __author_email__ = 'mauro.degiorgi@gmail.com'
