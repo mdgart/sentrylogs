@@ -2,7 +2,7 @@
 Sentry Logs |latest-version|
 ============================
 
-|build-status| |health| |python-support| |downloads| |license|
+|build-status| |health| |python-support| |license|
 
 Sentry Logs allows you to send logs to Sentry.  Only Nginx error log is
 currently supported, but extending the library to support more log files
@@ -21,9 +21,6 @@ is planned.
 .. |python-support| image:: https://img.shields.io/pypi/pyversions/sentrylogs.svg
    :target: https://pypi.python.org/pypi/sentrylogs
    :alt: Python versions
-.. |downloads| image:: https://img.shields.io/pypi/dm/sentrylogs.svg
-   :alt: Monthly downloads from PyPI
-   :target: https://pypi.python.org/pypi/sentrylogs
 .. |license| image:: https://img.shields.io/pypi/l/sentrylogs.svg
    :alt: Software license
    :target: https://github.com/mdgart/sentrylogs/blob/master/LICENSE.txt
