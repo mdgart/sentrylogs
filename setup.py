@@ -103,8 +103,17 @@ setup(
     license=package.__license__,
     url=package.__url__,
     install_requires=read_file('requirements.txt'),
-    scripts=['bin/sentrylogs'],
-    packages=['sentrylogs', 'sentrylogs.conf', 'sentrylogs.parsers'],
+    entry_points={
+        'console_scripts': [
+            'sentrylogs = sentrylogs.bin.sentrylogs:main',
+        ],
+    },
+    packages=[
+        'sentrylogs',
+        'sentrylogs.bin',
+        'sentrylogs.conf',
+        'sentrylogs.parsers',
+    ],
     test_suite='tests',
     tests_require=['tox'],
     cmdclass={
