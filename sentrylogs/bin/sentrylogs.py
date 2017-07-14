@@ -45,11 +45,11 @@ def process_arguments(args):
         print('Using the Nginx error log path %s' % args.nginxerrorpath)
         os.environ['NGINX_ERROR_PATH'] = args.nginxerrorpath
 
-    import sentrylogs.conf.settings  # noqa; pylint: disable=unused-variable
+    from ..conf import settings  # noqa; pylint: disable=unused-variable
 
     if args.daemonize:
         print('Running process in background')
-        from sentrylogs.daemonize import create_daemon
+        from ..daemonize import create_daemon
         create_daemon()
 
 
@@ -83,7 +83,7 @@ def parse_sentry_configuration(filename):
 
 def launch_log_parsers():
     """Run all log file parsers that send entries to Sentry"""
-    from sentrylogs.parsers.nginx import Nginx
+    from ..parsers.nginx import Nginx
 
     for parser in [Nginx]:
         parser().follow_tail()
