@@ -1,2 +1,2 @@
-raven>=2.0.10
+raven>=4
 tailer>=0.3
