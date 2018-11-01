@@ -9,7 +9,7 @@ def send_message(message, params, site, logger):
     client.capture(
         'Message',
         message=message,
-        params=type(params),message,
+        params=type(params),
         data={
             'site': site,
             'logger': logger,
