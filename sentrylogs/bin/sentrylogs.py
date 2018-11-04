@@ -72,13 +72,16 @@ def parse_sentry_configuration(filename):
                 except KeyError:
                     print('- Warning: Key "{key}" not found in section [{section}]'
                           .format(section=section, key=ini_key))
-        exit('No DSN found in {file}. Tried sections [{sec_list}]'
-             .format(file=filename, sec_list='], ['.join(ini_sections)))
+        raise SystemExit('No DSN found in {file}. Tried sections [{sec_list}]'.format(
+            file=filename,
+            sec_list='], ['.join(ini_sections),
+        ))
     elif filetype == 'py':  # Django, Flask, Bottle, ...
-        exit('Parsing configuration from pure Python (Django, Flask, Bottle, etc.)'
-             ' not implemented yet.')
+        raise SystemExit('Parsing configuration from pure Python (Django,'
+                         'Flask, Bottle, etc.) not implemented yet.')
     else:
-        exit('Configuration file type not supported for parsing: %s' % filetype)
+        raise SystemExit('Configuration file type not supported for parsing: '
+                         '%s' % filetype)
 
 
 def launch_log_parsers():

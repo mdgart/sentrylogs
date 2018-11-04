@@ -12,7 +12,7 @@ except NameError:  # Python 2.7
     PermissionError = IOError  # pylint: disable=redefined-builtin
 
 
-class Parser(object):
+class Parser:
     """Abstract base class for any parser"""
 
     def __init__(self, filepath):
@@ -30,7 +30,8 @@ class Parser(object):
         try:
             logfile = open(self.filepath)
         except (FileNotFoundError, PermissionError) as err:
-            exit("Error: Can't read logfile %s (%s)" % (self.filepath, err))
+            raise SystemExit("Error: Can't read logfile %s (%s)" %
+                             (self.filepath, err))
 
         for line in tailer.follow(logfile):
             self.message = None
