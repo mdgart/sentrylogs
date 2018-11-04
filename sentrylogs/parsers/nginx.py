@@ -40,16 +40,15 @@ class Nginx(Parser):
 
             otherinfo[key] = value
 
-        self.message = '%s' % date_time_message[2]
-        self.extended_message = '%s\n' \
-                                'Date: %s\n' \
-                                'Time: %s\n' \
-                                'Request: %s\n' \
-                                'Referrer: %s\n' \
-                                'Server: %s\n' \
-                                'Client: %s\n' \
-                                'Host: %s\n' \
-                                'Upstream: %s\n'
+        self.message = '%s\n' \
+                       'Date: %s\n' \
+                       'Time: %s\n' \
+                       'Request: %s\n' \
+                       'Referrer: %s\n' \
+                       'Server: %s\n' \
+                       'Client: %s\n' \
+                       'Host: %s\n' \
+                       'Upstream: %s\n'
         self.params = [
             date_time_message[2],
             date_time_message[0],

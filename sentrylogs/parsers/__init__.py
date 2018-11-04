@@ -19,7 +19,6 @@ class Parser(object):
         self.filepath = filepath
         self.logger = self.__doc__.strip()
         self.message = None
-        self.extended_message = None
         self.params = None
         self.site = None
 
@@ -35,13 +34,11 @@ class Parser(object):
 
         for line in tailer.follow(logfile):
             self.message = None
-            self.extended_message = None
             self.params = None
             self.site = None
 
             self.parse(line)
             send_message(self.message,
-                         self.extended_message,
                          self.params,
                          self.site,
                          self.logger)
@@ -52,9 +49,8 @@ class Parser(object):
         The implementation must set these properties:
 
         - ``message`` (string)
-        - ``extended_message`` (string)
         - ``params`` (list of string)
         - ``site`` (string)
         """
         raise NotImplementedError('parse() method must set: '
-                                  'message, extended_message, params, site')
+                                  'message, params, site')
