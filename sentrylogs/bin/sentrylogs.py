@@ -19,14 +19,17 @@ def get_command_line_args():
     parser = argparse.ArgumentParser(description='Send logs to Django Sentry.')
 
     parser.add_argument('--sentryconfig', '-c', default=None,
-                        help='A configuration file (.ini, .yaml) of some Sentry integration'
-                             ' to extract the Sentry DSN from')
+                        help='A configuration file (.ini, .yaml) of some '
+                             'Sentry integration to extract the Sentry DSN from')
     parser.add_argument('--sentrydsn', '-s', default="",
                         help='The Sentry DSN string (overrides -c)')
-    parser.add_argument('--daemonize', '-d', action='store_const', const=True, default=False,
+    parser.add_argument('--daemonize', '-d', default=False,
+                        action='store_const', const=True,
                         help='Run this script in background')
-    parser.add_argument('--follow', '-f', default="all", help='Which logs to follow, default ALL')
-    parser.add_argument('--nginxerrorpath', '-n', default=None, help='Nginx error log path')
+    parser.add_argument('--follow', '-f', default="all",
+                        help='Which logs to follow, default ALL')
+    parser.add_argument('--nginxerrorpath', '-n', default=None,
+                        help='Nginx error log path')
 
     return parser.parse_args()
 
@@ -70,12 +73,13 @@ def parse_sentry_configuration(filename):
                 try:
                     return config[section][ini_key]
                 except KeyError:
-                    print('- Warning: Key "{key}" not found in section [{section}]'
-                          .format(section=section, key=ini_key))
-        raise SystemExit('No DSN found in {file}. Tried sections [{sec_list}]'.format(
-            file=filename,
-            sec_list='], ['.join(ini_sections),
-        ))
+                    print('- Warning: Key "{key}" not found in section '
+                          '[{section}]'.format(section=section, key=ini_key))
+        raise SystemExit('No DSN found in {file}. Tried sections [{sec_list}]'
+                         .format(
+                             file=filename,
+                             sec_list='], ['.join(ini_sections),
+                         ))
     elif filetype == 'py':  # Django, Flask, Bottle, ...
         raise SystemExit('Parsing configuration from pure Python (Django,'
                          'Flask, Bottle, etc.) not implemented yet.')
