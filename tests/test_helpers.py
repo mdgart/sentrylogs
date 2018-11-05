@@ -29,16 +29,16 @@ def test_environ_context():
     the old values correctly
     """
     old = os.environ
-    new = {'FOO': 'my foo value', 'PATH': None}
+    new = {'PATH': None, 'FOO': 'my foo value'}
 
     assert os.environ == old
+    assert os.environ.get('PATH'), "Invalid test setup"
     assert not os.environ.get('FOO'), "Invalid test setup"
-    assert not os.environ.get('BAR'), "Invalid test setup"
 
     with EnvironContext(**new):
-        assert os.environ['FOO'] == new['FOO'], \
-            "os.environ[FOO] wasn't set by the contextmanager"
         assert not os.environ.get('PATH'), \
             "os.environ[PATH] wasn't removed by the contextmanager"
+        assert os.environ['FOO'] == new['FOO'], \
+            "os.environ[FOO] wasn't set by the contextmanager"
 
     assert os.environ == old, "os.environ wasn't correctly reset"
