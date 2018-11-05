@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """Packaging implementation for Sentry Logs"""
 from __future__ import print_function
 
