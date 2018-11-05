@@ -3,7 +3,11 @@ Tests for the command line interface (CLI)
 """
 import os
 import pytest
-from unittest.mock import patch
+
+try:
+    from unittest.mock import patch
+except ImportError:  # Python 2.7
+    from mock import patch
 
 from sentrylogs.bin.sentrylogs import main
 
@@ -18,7 +22,7 @@ def test_entrypoint():
     assert exit_status == 0
 
 
-def test_fail_without_sentrydns():
+def test_fail_without_sentrydsn():
     """
     Must fail without a ``SENTRY_DSN`` environment variable specified
     """
@@ -30,13 +34,13 @@ def test_fail_without_sentrydns():
 
 
 @patch('sentrylogs.bin.sentrylogs.launch_log_parsers')
-def test_pass_with_sentrydns(mock_launch_log_parsers):
+def test_pass_with_sentrydsn(mock_launch_log_parsers):
     """
     Must pass with a ``SENTRY_DSN`` environment variable available
     """
-    sentry_dns = 'https://username:password@sentry.example.com/project'
+    sentry_dsn = 'https://username:password@sentry.example.com/project'
 
-    with EnvironContext(SENTRY_DSN=sentry_dns), ArgvContext('--daemonize'):
+    with EnvironContext(SENTRY_DSN=sentry_dsn), ArgvContext('--daemonize'):
         main()
 
     assert mock_launch_log_parsers.called, "Log parsing didn't start"
