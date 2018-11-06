@@ -1,45 +1,37 @@
-#!/usr/bin/env python
-"""Setup for Sentry Logs"""
+#!/usr/bin/env python3
+"""Packaging implementation for Sentry Logs"""
 from __future__ import print_function
 
-from glob import glob
-from os import remove
+import os
 from os.path import abspath, dirname, join
-from shlex import split
-from shutil import rmtree
+from glob import glob
+import shutil
 
-from setuptools import setup
-from setuptools.command.test import test as TestCommand  # noqa N812
+from setuptools import Command, setup
 
 import sentrylogs as package
 
 
-class Tox(TestCommand):
-    """Integration of tox via the setuptools ``test`` command"""
-    # pylint: disable=attribute-defined-outside-init
-    user_options = [('tox-args=', 'a', "Arguments to pass to tox")]
+class SimpleCommand(Command):
+    """A simple setuptools command (implementation of abstract base class)"""
+    user_options = []
 
     def initialize_options(self):
-        TestCommand.initialize_options(self)
-        self.tox_args = None
+        """Abstract method of the base class (required to be overridden)"""
 
     def finalize_options(self):
-        TestCommand.finalize_options(self)
-        self.test_args = []
-        self.test_suite = True
-
-    def run_tests(self):
-        from tox import cmdline  # pylint: disable=import-error
-        args = self.tox_args
-        if args:
-            args = split(self.tox_args)
-        cmdline(args=args)
+        """Abstract method of the base class (required to be overridden)"""
 
 
-class Clean(TestCommand):
-    """A setuptools ``clean`` command. Removes build files and folders"""
+class Clean(SimpleCommand):
+    """Remove build files and folders, including Python byte-code"""
+    description = __doc__
 
-    def run(self):
+    @staticmethod
+    def run():
+        """
+        Clean up files not meant for version control
+        """
         delete_in_root = [
             'build',
             'dist',
@@ -61,23 +53,23 @@ class Clean(TestCommand):
 
 
 def rmtree_glob(file_glob):
-    """Platform independent rmtree. Removes a complete directory."""
-    for fobj in glob(file_glob):
+    """Platform independent rmtree, which also allows wildcards (globbing)"""
+    for item in glob(file_glob, recursive=True):
         try:
-            rmtree(fobj)
-            print('%s/ removed ...' % fobj)
+            os.remove(item)
+            print('%s removed ...' % item)
         except OSError:
             try:
-                remove(fobj)
-                print('%s removed ...' % fobj)
+                shutil.rmtree(item)
+                print('%s/ removed ...' % item)
             except OSError as err:
                 print(err)
 
 
 def read_file(filename):
     """Read the contents of a file located relative to setup.py"""
-    with open(join(abspath(dirname(__file__)), filename)) as thefile:
-        return thefile.read()
+    with open(join(abspath(dirname(__file__)), filename)) as file:
+        return file.read()
 
 
 setup(
@@ -93,10 +85,10 @@ setup(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
     ],
     description=package.__doc__.strip(),
     long_description=read_file('README.rst'),
@@ -118,6 +110,5 @@ setup(
     tests_require=['tox'],
     cmdclass={
         'clean': Clean,
-        'test': Tox,
     },
 )

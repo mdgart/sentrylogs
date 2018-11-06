@@ -1,0 +1,13 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+raven = ">=3.3.2"
+tailer = ">=0.3"
+
+[dev-packages]
+tox = "*"
+
+[requires]

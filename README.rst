@@ -103,13 +103,11 @@ writing code make sure your changes pass our quality gate before you push.
 
 .. code-block:: bash
 
-    $ python setup.py test         # run all tests with active Python version
-    $ python setup.py clean        # remove all build files and byte code
-    $ python setup.py clean test   # start a clean test run (to fix test issues)
+    $ tox
+    $ python setup.py clean
 
-Please write tests!  Our test infrastructure is in place, however our tests
-are still very basic (static code analysis over all files, and integration
-tests for the command line script).
+Please write tests!  Test coverage is still low and the code quality needs
+to improve.  Please help by adding tests with each contribution you make!
 
 
 .. _open an issue: https://github.com/mdgart/sentrylogs/issues
