@@ -1,2 +1,2 @@
 raven>=3.3.2
-https://github.com/six8/pytailer/zipball/c9e8a1fc52e148ca165df4982164aba249b60ba1
+tailhead

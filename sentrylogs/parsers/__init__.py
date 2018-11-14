@@ -1,7 +1,7 @@
 """
 Log file parsers provided by Sentry Logs
 """
-import tailer  # same functionality as UNIX tail in python
+import tailhead  # same functionality as UNIX tail in python
 
 from ..helpers import send_message
 
@@ -27,13 +27,14 @@ class Parser:
         Read (tail and follow) the log file, parse entries and send messages
         to Sentry using Raven.
         """
+
         try:
-            logfile = open(self.filepath)
+            follower = tailhead.follow_path(self.filepath)
         except (FileNotFoundError, PermissionError) as err:
             raise SystemExit("Error: Can't read logfile %s (%s)" %
                              (self.filepath, err))
 
-        for line in tailer.follow(logfile):
+        for line in follower:
             self.message = None
             self.params = None
             self.site = None
