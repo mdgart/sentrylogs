@@ -39,11 +39,12 @@ class Parser:
             self.params = None
             self.site = None
 
-            self.parse(line)
-            send_message(self.message,
-                         self.params,
-                         self.site,
-                         self.logger)
+            if line is not None:
+                self.parse(line)
+                send_message(self.message,
+                             self.params,
+                             self.site,
+                             self.logger)
 
     def parse(self, line):
         """
