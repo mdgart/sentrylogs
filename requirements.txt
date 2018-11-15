@@ -1,2 +1,2 @@
 raven>=3.3.2
-tailhead
+tailhead>=1.0.2
