@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 raven = ">=3.3.2"
-tailer = ">=0.3"
+tailhead = ">=1.0.2"
 
 [dev-packages]
 tox = "*"
