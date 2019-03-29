@@ -12,7 +12,7 @@ except NameError:  # Python 2.7
     PermissionError = IOError  # pylint: disable=redefined-builtin
 
 
-class Parser:
+class Parser(object):
     """Abstract base class for any parser"""
 
     def __init__(self, filepath):
