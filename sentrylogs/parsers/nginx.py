@@ -49,7 +49,7 @@ class Nginx(Parser):
                        'Client: %s\n' \
                        'Host: %s\n' \
                        'Upstream: %s\n'
-        self.params = [
+        self.params = (
             date_time_message[2],
             date_time_message[0],
             date_time_message[1],
@@ -59,5 +59,5 @@ class Nginx(Parser):
             otherinfo.get("client", "-"),
             otherinfo.get("host", "-"),
             otherinfo.get("upstream", "-"),
-        ]
+        )
         self.site = otherinfo.get("referrer", "-")

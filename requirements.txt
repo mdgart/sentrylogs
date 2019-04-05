@@ -1,2 +1,2 @@
-raven>=3.3.2
+sentry-sdk>=0.7.9,<1.0.0
 tailhead>=1.0.2
