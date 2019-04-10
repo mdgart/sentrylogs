@@ -12,6 +12,7 @@ host: "165.225.132.103",
 referrer: "http://165.225.132.103/megapage/"
 """
 import re
+import sys
 
 from . import Parser
 from ..conf.settings import NGINX_ERROR_PATH
@@ -39,6 +40,9 @@ class Nginx(Parser):
 
     def parse(self, line):
         """Parse a line of the Nginx error log"""
+        print(line, file=sys.stderr)
+        sys.stderr.flush()
+        
         csv_list = line.split(",")
 
         regex = re.match(self.pattern, csv_list.pop(0))
