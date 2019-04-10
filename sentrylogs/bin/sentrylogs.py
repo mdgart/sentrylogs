@@ -43,6 +43,8 @@ def process_arguments(args):
     if args.sentrydsn:
         print('Using the DSN %s' % args.sentrydsn)
         os.environ['SENTRY_DSN'] = args.sentrydsn
+    if ('SENTRY_DSN' not in os.environ) or (not os.environ['SENTRY_DSN']):
+        raise SystemExit('No Sentry DSN found!')
 
     if args.nginxerrorpath:
         print('Using the Nginx error log path %s' % args.nginxerrorpath)
