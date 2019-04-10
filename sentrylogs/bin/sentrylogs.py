@@ -30,6 +30,8 @@ def get_command_line_args():
                         help='Which logs to follow, default ALL')
     parser.add_argument('--nginxerrorpath', '-n', default=None,
                         help='Nginx error log path')
+    parser.add_argument('--loglevel', '-l', default=None,
+                        help='Minimum log level to send to sentry')
 
     return parser.parse_args()
 
@@ -49,6 +51,10 @@ def process_arguments(args):
     if args.nginxerrorpath:
         print('Using the Nginx error log path %s' % args.nginxerrorpath)
         os.environ['NGINX_ERROR_PATH'] = args.nginxerrorpath
+
+    if args.loglevel:
+        print('Using the sentry log level %s' % args.loglevel)
+        os.environ['SENTRY_LOG_LEVEL'] = args.loglevel
 
     from ..conf import settings  # noqa; pylint: disable=unused-variable
 
