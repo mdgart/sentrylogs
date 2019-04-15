@@ -1,6 +1,8 @@
 """
 Log file parsers provided by Sentry Logs
 """
+import time
+
 import tailhead  # same functionality as UNIX tail in python
 
 from ..helpers import send_message
@@ -53,6 +55,8 @@ class Parser:
                     self.level,
                     self.data,
                 )
+            else:
+                time.sleep(1)
 
     def parse(self, line):
         """
