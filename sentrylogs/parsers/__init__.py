@@ -1,6 +1,8 @@
 """
 Log file parsers provided by Sentry Logs
 """
+import time
+
 import tailhead  # same functionality as UNIX tail in python
 
 from ..helpers import send_message
@@ -19,8 +21,17 @@ class Parser:
         self.filepath = filepath
         self.logger = self.__doc__.strip()
         self.message = None
-        self.params = None
-        self.site = None
+        self.level = None
+        self.data = {
+            "logger": self.logger,
+        }
+
+    def clear_attributes(self):
+        self.message = None
+        self.level = None
+        self.data = {
+            "logger": self.logger,
+        }
 
     def follow_tail(self):
         """
@@ -35,16 +46,17 @@ class Parser:
                              (self.filepath, err))
 
         for line in follower:
-            self.message = None
-            self.params = None
-            self.site = None
+            self.clear_attributes()
 
             if line is not None:
                 self.parse(line)
-                send_message(self.message,
-                             self.params,
-                             self.site,
-                             self.logger)
+                send_message(
+                    self.message,
+                    self.level,
+                    self.data,
+                )
+            else:
+                time.sleep(1)
 
     def parse(self, line):
         """
@@ -52,8 +64,10 @@ class Parser:
         The implementation must set these properties:
 
         - ``message`` (string)
-        - ``params`` (list of string)
-        - ``site`` (string)
+        - ``level`` (string)
+
+        Additional optional properties:
+        - ``data`` (dict)
         """
         raise NotImplementedError('parse() method must set: '
-                                  'message, params, site')
+                                  'message, level')

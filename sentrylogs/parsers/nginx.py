@@ -11,6 +11,9 @@ upstream: "http://0.0.0.0:9000/api/megapage/poll/?cursor=1354216956",
 host: "165.225.132.103",
 referrer: "http://165.225.132.103/megapage/"
 """
+import re
+import sys
+
 from . import Parser
 from ..conf.settings import NGINX_ERROR_PATH
 
@@ -20,12 +23,36 @@ class Nginx(Parser):
 
     def __init__(self):
         super(Nginx, self).__init__(NGINX_ERROR_PATH)
+        self.pattern = r"^(?P<date>\S+) (?P<time>\S+) \[(?P<level>[^\]]+)\] (?P<pid>\d+)\#(?P<tid>\d+)\:(?: \*(?P<cid>\d+))? ?(?P<message>.+)"
+        self.nginx_to_sentry = {
+            "debug": "debug",
+            "info": "info",
+            "notice": "info",
+            "warn": "warning",
+            "error": "error",
+            "crit": "fatal",
+            "alert": "fatal",
+            "emerg": "fatal",
+        }
+
+    def get_sentry_log_level(self, level):
+        return self.nginx_to_sentry[level]
 
     def parse(self, line):
         """Parse a line of the Nginx error log"""
+        print(line, file=sys.stderr)
+        sys.stderr.flush()
+        
         csv_list = line.split(",")
-        date_time_message = csv_list.pop(0).split(" ", 2)
-        otherinfo = dict()
+
+        regex = re.match(self.pattern, csv_list.pop(0))
+        self.data["date"] = regex.group("date")
+        self.data["time"] = regex.group("time")
+        self.level = self.get_sentry_log_level(regex.group("level"))
+        self.data["pid"] = regex.group("pid")
+        self.data["tid"] = regex.group("tid")
+        self.data["cid"] = regex.group("cid")
+        self.message = regex.group("message")
 
         for item in csv_list:
             key_value_pair = item.split(":", 1)
@@ -38,26 +65,4 @@ class Nginx(Parser):
             else:
                 value = "-"
 
-            otherinfo[key] = value
-
-        self.message = '%s\n' \
-                       'Date: %s\n' \
-                       'Time: %s\n' \
-                       'Request: %s\n' \
-                       'Referrer: %s\n' \
-                       'Server: %s\n' \
-                       'Client: %s\n' \
-                       'Host: %s\n' \
-                       'Upstream: %s\n'
-        self.params = [
-            date_time_message[2],
-            date_time_message[0],
-            date_time_message[1],
-            otherinfo.get("request", "-"),
-            otherinfo.get("referrer", "-"),
-            otherinfo.get("server", "-"),
-            otherinfo.get("client", "-"),
-            otherinfo.get("host", "-"),
-            otherinfo.get("upstream", "-"),
-        ]
-        self.site = otherinfo.get("referrer", "-")
+            self.data[key] = value
