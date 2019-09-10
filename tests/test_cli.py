@@ -26,9 +26,10 @@ def test_fail_without_sentrydsn():
     """
     Must fail without a ``SENTRY_DSN`` environment variable specified
     """
-    message = "No Sentry DSN found!"
+    explain_failure = "Should have failed w/o SENTRY_DSN environment variable"
+
     with EnvironContext(SENTRY_DSN=None), ArgvContext('--daemonize'):
-        with pytest.raises(SystemExit, match=message):
+        with pytest.raises(SystemExit, message=explain_failure):
             main()
 
 
@@ -37,7 +38,7 @@ def test_pass_with_sentrydsn(mock_launch_log_parsers):
     """
     Must pass with a ``SENTRY_DSN`` environment variable available
     """
-    sentry_dsn = 'https://username:password@sentry.example.com/123'
+    sentry_dsn = 'https://username:password@sentry.example.com/project'
 
     with EnvironContext(SENTRY_DSN=sentry_dsn), ArgvContext('--daemonize'):
         main()

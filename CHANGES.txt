@@ -11,4 +11,3 @@ v0.1.0, 07/25/2014 -- Fix syntax error in nginx parser (07/03/2013; released 1y 
 v0.2.0, 06/10/2016 -- Add --sentryconfig option, add static code analysis (flake8, pylint) and integration tests
 v0.3.0, 07/14/2017 -- Use entry_point.console_scripts for script setup, use relative imports in script module
 v0.4.0, 11/05/2018 -- Update interface for extended message, add real tests
-v0.5.0, 04/05/2019 -- Use sentry-sdk client
