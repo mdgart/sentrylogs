@@ -2,8 +2,8 @@
 """Standalone script for Sentry Logs"""
 from __future__ import print_function
 
-import argparse
 import os
+import argparse
 
 try:
     from configparser import ConfigParser
@@ -56,7 +56,7 @@ def process_arguments(args):
         print('Using the sentry log level %s' % args.loglevel)
         os.environ['SENTRY_LOG_LEVEL'] = args.loglevel
 
-    from ..conf import settings  # noqa; pylint: disable=unused-variable
+    from ..conf import settings  # noqa: F401; pylint: disable=unused-import
 
     if args.daemonize:
         print('Running process in background')
@@ -68,7 +68,7 @@ def parse_sentry_configuration(filename):
     """Parse Sentry DSN out of an application or Sentry configuration file"""
     filetype = os.path.splitext(filename)[-1][1:].lower()
 
-    if filetype == 'ini':  # Pyramid, Pylons
+    if filetype == 'ini':  # Pyramid, Pylons # pylint: disable=no-else-raise
         config = ConfigParser()
         config.read(filename)
         ini_key = 'dsn'
@@ -91,9 +91,8 @@ def parse_sentry_configuration(filename):
     elif filetype == 'py':  # Django, Flask, Bottle, ...
         raise SystemExit('Parsing configuration from pure Python (Django,'
                          'Flask, Bottle, etc.) not implemented yet.')
-    else:
-        raise SystemExit('Configuration file type not supported for parsing: '
-                         '%s' % filetype)
+    raise SystemExit('Configuration file type not supported for parsing: '
+                     '%s' % filetype)
 
 
 def launch_log_parsers():

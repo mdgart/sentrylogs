@@ -2,9 +2,9 @@
 """Packaging implementation for Sentry Logs"""
 from __future__ import print_function
 
+from glob import glob
 import os
 from os.path import abspath, dirname, join
-from glob import glob
 import shutil
 
 from setuptools import Command, setup
