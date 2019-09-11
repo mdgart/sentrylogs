@@ -27,6 +27,7 @@ class Parser:
         }
 
     def clear_attributes(self):
+        """Reset attributes"""
         self.message = None
         self.level = None
         self.data = {

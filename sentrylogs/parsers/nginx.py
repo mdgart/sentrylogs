@@ -23,7 +23,7 @@ class Nginx(Parser):
 
     def __init__(self):
         super(Nginx, self).__init__(NGINX_ERROR_PATH)
-        self.pattern = r"^(?P<date>\S+) (?P<time>\S+) \[(?P<level>[^\]]+)\] (?P<pid>\d+)\#(?P<tid>\d+)\:(?: \*(?P<cid>\d+))? ?(?P<message>.+)"
+        self.pattern = r"^(?P<date>\S+) (?P<time>\S+) \[(?P<level>[^\]]+)\] (?P<pid>\d+)\#(?P<tid>\d+)\:(?: \*(?P<cid>\d+))? ?(?P<message>.+)"  # noqa: E501; pylint: disable=line-too-long
         self.nginx_to_sentry = {
             "debug": "debug",
             "info": "info",
@@ -36,13 +36,14 @@ class Nginx(Parser):
         }
 
     def get_sentry_log_level(self, level):
+        """ Get the Sentry log level given the nginx log level"""
         return self.nginx_to_sentry[level]
 
     def parse(self, line):
         """Parse a line of the Nginx error log"""
         print(line, file=sys.stderr)
         sys.stderr.flush()
-        
+
         csv_list = line.split(",")
 
         regex = re.match(self.pattern, csv_list.pop(0))
