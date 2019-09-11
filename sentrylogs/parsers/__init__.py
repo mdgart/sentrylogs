@@ -14,7 +14,7 @@ except NameError:  # Python 2.7
     PermissionError = IOError  # pylint: disable=redefined-builtin
 
 
-class Parser:
+class Parser(object):  # pylint: disable=useless-object-inheritance
     """Abstract base class for any parser"""
 
     def __init__(self, filepath):

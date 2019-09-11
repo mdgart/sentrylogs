@@ -11,6 +11,8 @@ upstream: "http://0.0.0.0:9000/api/megapage/poll/?cursor=1354216956",
 host: "165.225.132.103",
 referrer: "http://165.225.132.103/megapage/"
 """
+from __future__ import print_function
+
 import re
 import sys
 
