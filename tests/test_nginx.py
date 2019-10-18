@@ -56,3 +56,22 @@ def test_regex():
         n.clear_attributes()
         n.parse(log)
         assert message == n.message
+
+
+def test_error_does_not_match_regex():
+    """
+    Test when the regex does not match
+    """
+    logs = (
+        'nginx: [emerg] open() "/etc/nginx/mime.types" failed (2: No such file or directory) in /opt/bitnami/nginx/conf/server_blocks/server-block.conf:24',  # noqa: E501
+    )
+
+    level = "fatal"
+
+    n = Nginx()
+    for log in logs:
+        message = log
+        n.clear_attributes()
+        n.parse(log)
+        assert level == n.level
+        assert message == n.message

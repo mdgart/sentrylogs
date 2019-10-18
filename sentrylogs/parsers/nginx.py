@@ -49,6 +49,10 @@ class Nginx(Parser):
         csv_list = line.split(",")
 
         regex = re.match(self.pattern, csv_list.pop(0))
+        if not regex:
+            self.level = "fatal"
+            self.message = line
+            return
         self.data["date"] = regex.group("date")
         self.data["time"] = regex.group("time")
         self.level = self.get_sentry_log_level(regex.group("level"))
