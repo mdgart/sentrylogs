@@ -9,9 +9,9 @@ try:
 except ImportError:  # Python 2.7
     from mock import patch
 
-from sentrylogs.bin.sentrylogs import main
+from cli_test_helpers import ArgvContext, EnvironContext
 
-from helpers import ArgvContext, EnvironContext
+from sentrylogs.bin.sentrylogs import main
 
 
 def test_entrypoint():
