@@ -101,10 +101,17 @@ How to Contribute
 Please `open an issue`_ to discuss your plans for a `pull request`_.  After
 writing code make sure your changes pass our quality gate before you push.
 
-.. code-block:: bash
+.. code-block:: console
 
-    $ tox
-    $ python setup.py clean
+    # list all tox targets
+    tox -lv
+
+    # run all linting and tests
+    tox
+
+    # run tests just for Python 3.8
+    # (e.g. if you don't have all Pythons installed via pyenv)
+    tox -e py38
 
 Please write tests!  Test coverage is still low and the code quality needs
 to improve.  Please help by adding tests with each contribution you make!

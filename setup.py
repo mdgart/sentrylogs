@@ -1,69 +1,11 @@
 #!/usr/bin/env python3
-"""Packaging implementation for Sentry Logs"""
-from __future__ import print_function
-
-from glob import glob
-import os
+"""
+Packaging setup for Sentry Logs
+"""
 from os.path import abspath, dirname, join
-import shutil
-
-from setuptools import Command, setup
+from setuptools import setup
 
 import sentrylogs as package
-
-
-class SimpleCommand(Command):
-    """A simple setuptools command (implementation of abstract base class)"""
-    user_options = []
-
-    def initialize_options(self):
-        """Abstract method of the base class (required to be overridden)"""
-
-    def finalize_options(self):
-        """Abstract method of the base class (required to be overridden)"""
-
-
-class Clean(SimpleCommand):
-    """Remove build files and folders, including Python byte-code"""
-    description = __doc__
-
-    @staticmethod
-    def run():
-        """
-        Clean up files not meant for version control
-        """
-        delete_in_root = [
-            'build',
-            'dist',
-            '.eggs',
-            '*.egg-info',
-            '.tox',
-        ]
-        delete_everywhere = [
-            '*.pyc',
-            '__pycache__',
-        ]
-        for candidate in delete_in_root:
-            rmtree_glob(candidate)
-        for visible_dir in glob('[A-Za-z0-9_]*'):
-            for candidate in delete_everywhere:
-                rmtree_glob(join(visible_dir, candidate))
-                rmtree_glob(join(visible_dir, '*', candidate))
-                rmtree_glob(join(visible_dir, '*', '*', candidate))
-
-
-def rmtree_glob(file_glob):
-    """Platform independent rmtree, which also allows wildcards (globbing)"""
-    for item in glob(file_glob, recursive=True):
-        try:
-            os.remove(item)
-            print('%s removed ...' % item)
-        except OSError:
-            try:
-                shutil.rmtree(item)
-                print('%s/ removed ...' % item)
-            except OSError as err:
-                print(err)
 
 
 def read_file(filename):
@@ -89,9 +31,13 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: Implementation :: CPython',
+        'Programming Language :: Python :: Implementation :: PyPy',
     ],
     description=package.__doc__.strip(),
     long_description=read_file('README.rst'),
+    long_description_content_type='text/x-rst',
     license=package.__license__,
     url=package.__url__,
     install_requires=read_file('requirements.txt'),
@@ -108,7 +54,4 @@ setup(
     ],
     test_suite='tests',
     tests_require=['tox'],
-    cmdclass={
-        'clean': Clean,
-    },
 )
