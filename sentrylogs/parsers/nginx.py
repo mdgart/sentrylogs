@@ -46,6 +46,9 @@ class Nginx(Parser):
         print(line, file=sys.stderr)
         sys.stderr.flush()
 
+        # Send entire log line to Sentry
+        self.data["log"] = line
+
         csv_list = line.split(",")
 
         regex = re.match(self.pattern, csv_list.pop(0))
