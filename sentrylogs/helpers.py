@@ -14,5 +14,5 @@ def send_message(message, level, data):
         return
     with push_scope() as scope:
         for key, value in data.items():
-            scope.set_extra(key, value)
+            scope.set_context(key, value)
         capture_message(message, level)
